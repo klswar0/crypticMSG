@@ -6,6 +6,13 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6BD525603089473C00D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
+		6BD525613089473C00D5AE7C /* libsodium.26.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		6BD525633089475E00D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
+		6BD525643089477100D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		6BD525523089450300D5AE7C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -15,10 +22,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		6BD525623089473C00D5AE7C /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = Frameworks;
+			files = (
+				6BD525613089473C00D5AE7C /* libsodium.26.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6BD525543089450300D5AE7C /* crypticMSG */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = crypticMSG; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsodium.26.dylib; path = ../../../../opt/homebrew/Cellar/libsodium/1.0.22/lib/libsodium.26.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +50,9 @@
 		6BD525513089450300D5AE7C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			files = (
+				6BD525643089477100D5AE7C /* libsodium.26.dylib in Frameworks */,
+				6BD525633089475E00D5AE7C /* libsodium.26.dylib in Frameworks */,
+				6BD525603089473C00D5AE7C /* libsodium.26.dylib in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -42,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				6BD525563089450300D5AE7C /* crypticMSG */,
+				6BD5255E3089473C00D5AE7C /* Frameworks */,
 				6BD525553089450300D5AE7C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +75,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6BD5255E3089473C00D5AE7C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -64,6 +93,7 @@
 				6BD525503089450300D5AE7C /* Sources */,
 				6BD525513089450300D5AE7C /* Frameworks */,
 				6BD525523089450300D5AE7C /* CopyFiles */,
+				6BD525623089473C00D5AE7C /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -240,6 +270,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JJR5LFVG6X;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/libsodium/1.0.22/lib,
+				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -250,6 +286,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JJR5LFVG6X;
 				ENABLE_HARDENED_RUNTIME = YES;
+				HEADER_SEARCH_PATHS = /opt/homebrew/include;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/homebrew/Cellar/libsodium/1.0.22/lib,
+				);
+				NEW_SETTING = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
