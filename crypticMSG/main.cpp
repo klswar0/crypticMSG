@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sodium.h>
 #include <fstream>
+#include <array>
 using namespace std;
 
 string key="";
@@ -35,15 +36,33 @@ string key="";
 array<unsigned char, crypto_box_PUBLICKEYBYTES> publicKey;
 array<unsigned char, crypto_box_SECRETKEYBYTES> PrivateKey;
 
+
+void keyGen(){
+    crypto_box_keypair(publicKey.data(), PrivateKey.data());
+    ofstream publicfKey("public.fkey", ios::binary);
+    publicfKey.write(reinterpret_cast<const char*>(publicKey.data()), publicKey.size());
+    publicfKey.close();
+    cout<<"Public key generated!\n";
+    
+    ofstream PrivatefKey("private.fkey", ios::binary);
+    PrivatefKey.write(reinterpret_cast<const char*>(PrivateKey.data()), PrivateKey.size());
+    PrivatefKey.close();
+    cout<<"Private key generated!\n";
+}
+
 void keyLoad(){
     ifstream publicfKey("public.fkey");
     if(!getline(publicfKey, key)){
-        cout<<"Failed to load key from file"<<endl;
+        cout<<"Failed to load public key from file"<<endl;
+        keyGen();
+        return;
     }
     publicfKey.close();
     ifstream privatefKey("private.fkey");
     if(!getline(privatefKey, key)){
-        cout<<"Failed to load key from file"<<endl;
+        cout<<"Failed to private load key from file"<<endl;
+        keyGen();
+        return;
     }
     
     privatefKey.close();

@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6BD525603089473C00D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
 		6BD525613089473C00D5AE7C /* libsodium.26.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		6BD525633089475E00D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
 		6BD525643089477100D5AE7C /* libsodium.26.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BD5255F3089473C00D5AE7C /* libsodium.26.dylib */; };
 /* End PBXBuildFile section */
 
@@ -51,8 +49,6 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				6BD525643089477100D5AE7C /* libsodium.26.dylib in Frameworks */,
-				6BD525633089475E00D5AE7C /* libsodium.26.dylib in Frameworks */,
-				6BD525603089473C00D5AE7C /* libsodium.26.dylib in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
