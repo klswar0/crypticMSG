@@ -75,10 +75,38 @@ void keyLoad(){
 
 
 
-void decrypt() {}
 
-void encrypt() {}
+void decrypt(string text) {}
 
+void encrypt(string text) {
+    vector<unsigned char> encprytedM(text.size()+crypto_box_SEALBYTES);
+    if (crypto_box_seal(
+                        encprytedM.data(),
+                        reinterpret_cast<const unsigned char*>(text.data()),
+                        text.size(),
+                        publicKey.data()
+                        )!=0)
+    {
+        cerr<<"Encryption failed"<<endl;
+        
+    }
+    // needs conversion to print
+    vector<char> hexString(encprytedM.size() * 2 + 1);
+    sodium_bin2hex(hexString.data(), hexString.size(), encprytedM.data(), encprytedM.size());
+    cout<<"Encrypted message: "<<hexString.data()<<endl;
+}
+
+void inputManager(string type,string text) {
+    string input;
+    cout<<text<<endl<<"enter the text:";
+    cin>>input;
+    if (type =="Encrypt"){
+        encrypt(input);
+    }
+    else if (type =="Decrypt"){
+        decrypt(input);
+    }
+}
 
 
 int main(int argc, const char * argv[]) {
@@ -106,10 +134,10 @@ int main(int argc, const char * argv[]) {
             break;
         }
         if(choice == 1){
-            encrypt();
+            inputManager("Encrypt","Encrypting");
         }
         else if (choice == 2){
-            decrypt();
+            inputManager("Decrypt","Decrypting");
         }
         
     }
