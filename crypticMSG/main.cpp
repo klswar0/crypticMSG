@@ -14,25 +14,7 @@ using namespace std;
 
 string key="";
 
-//void keySel() {
-//    
-//}
-//
-//void keyFind(string ID){
-//
-//    
-//}
-//
-//void keyAdd(string ID,string key,string name) {
-//ofstream keyFile("contacts.txt");
-//    keyFile<<"--KEY INFO--\n"
-//    <<"Key ID: "<<ID<<endl
-//    <<"Name: "<<name<<endl
-//    <<"Key: "<<key<<endl
-//    <<"----------------\n";
-//    
-//}
-//
+
 array<unsigned char, crypto_box_PUBLICKEYBYTES> publicKey;
 array<unsigned char, crypto_box_SECRETKEYBYTES> PrivateKey;
 
@@ -74,10 +56,18 @@ void keyLoad(){
 }
 
 
-
+void FileCreate(string text){
+    ofstream file("message.txt");
+    if(!file.is_open()){
+        cerr<<"Failed to create file"<<endl;
+        return;
+    }
+    file<<text;
+    
+}
 
 void decrypt(string text) {
-    // conversion from hex needed
+    // conversion from hex needed DONE
     
     vector<unsigned char> converted(text.size()/2);
     
@@ -96,6 +86,7 @@ void decrypt(string text) {
     }
     string fullyDecrypted(decryptedM.begin(), decryptedM.end());
     cout<<"Decrypted message: "<<fullyDecrypted<<endl;
+    FileCreate(fullyDecrypted);
 }
 
 void encrypt(string text) {
@@ -111,10 +102,11 @@ void encrypt(string text) {
         cerr<<"Encryption failed"<<endl;
         
     }
-    // needs conversion to print
+    // needs conversion to print DONE
     vector<char> hexString(encprytedM.size() * 2 + 1);
     sodium_bin2hex(hexString.data(), hexString.size(), encprytedM.data(), encprytedM.size());
     cout<<"Encrypted message: "<<hexString.data()<<endl;
+    FileCreate(hexString.data());
 }
 
 void inputManager(string type,string text) {
@@ -134,15 +126,7 @@ int main(int argc, const char * argv[]) {
     if (sodium_init() < 0) {
         cerr << "Failed to initialize libsodium" << endl;
     }
-//    bool encrypt = true;
-//    string message = "";
-//    if(encrypt) {
-//        ifstream inputFile("input.txt");
-//        string line;
-//        while(getline(inputFile, line)) {
-//            message += line + "\n";
-//        }
-//    }
+
     keyLoad();
     while(true){
         cout<<"Action:\n"
