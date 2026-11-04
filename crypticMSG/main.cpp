@@ -76,9 +76,30 @@ void keyLoad(){
 
 
 
-void decrypt(string text) {}
+void decrypt(string text) {
+    // conversion from hex needed
+    
+    vector<unsigned char> converted(text.size()/2);
+    
+    sodium_hex2bin(converted.data(), converted.size(), text.data(), text.size(), NULL, NULL, NULL);
+    
+    vector<unsigned char> decryptedM(converted.size());
+    if(crypto_box_seal_open(decryptedM.data(),
+                            converted.data(),
+                            converted.size(),
+                            publicKey.data(),
+                            PrivateKey.data()
+                            ) !=0)
+    {
+        cerr<<"Decryption failed"<<endl;
+    
+    }
+    string fullyDecrypted(decryptedM.begin(), decryptedM.end());
+    cout<<"Decrypted message: "<<fullyDecrypted<<endl;
+}
 
 void encrypt(string text) {
+    
     vector<unsigned char> encprytedM(text.size()+crypto_box_SEALBYTES);
     if (crypto_box_seal(
                         encprytedM.data(),
