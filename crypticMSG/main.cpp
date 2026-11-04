@@ -51,19 +51,23 @@ void keyGen(){
 }
 
 void keyLoad(){
-    ifstream publicfKey("public.fkey");
-    if(!getline(publicfKey, key)){
+    ifstream publicfKey("public.fkey", ios::binary);
+    if(!publicfKey.is_open()){
         cout<<"Failed to load public key from file"<<endl;
         keyGen();
         return;
     }
+    publicfKey.read(reinterpret_cast<char*>(publicKey.data()), publicKey.size());
     publicfKey.close();
-    ifstream privatefKey("private.fkey");
-    if(!getline(privatefKey, key)){
+    
+    
+    ifstream privatefKey("private.fkey", ios::binary);
+    if(!privatefKey.is_open()){
         cout<<"Failed to private load key from file"<<endl;
         keyGen();
         return;
     }
+    privatefKey.read(reinterpret_cast<char*>(PrivateKey.data()), PrivateKey.size());
     
     privatefKey.close();
     
