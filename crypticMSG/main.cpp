@@ -66,7 +66,7 @@ void FileCreate(string text){
     
 }
 
-void decrypt(string text) {
+string decrypt(string text) {
     // conversion from hex needed DONE
     
     vector<unsigned char> converted(text.size()/2);
@@ -87,9 +87,10 @@ void decrypt(string text) {
     string fullyDecrypted(decryptedM.begin(), decryptedM.end());
     cout<<"Decrypted message: "<<fullyDecrypted<<endl;
     FileCreate(fullyDecrypted);
+    return string(fullyDecrypted);
 }
 
-void encrypt(string text) {
+string encrypt(string text) {
     
     vector<unsigned char> encprytedM(text.size()+crypto_box_SEALBYTES);
     if (crypto_box_seal(
@@ -107,6 +108,34 @@ void encrypt(string text) {
     sodium_bin2hex(hexString.data(), hexString.size(), encprytedM.data(), encprytedM.size());
     cout<<"Encrypted message: "<<hexString.data()<<endl;
     FileCreate(hexString.data());
+    return string(hexString.data());
+}
+
+
+void sendMessage(string text){
+    text=encrypt(text);
+    ofstream file("send.txt", ios::binary);
+    file.write(reinterpret_cast<const char*>(publicKey.data()), publicKey.size());
+    file<<text;
+    file.close();
+}
+
+void decryptMessage(){
+    ifstream file("send.txt", ios::binary);
+    if(!file.is_open()){
+        cerr<<"Failed to open file"<<endl;
+        return;
+    }
+    array<unsigned char, crypto_box_PUBLICKEYBYTES> senderPublicKey;
+    file.read(reinterpret_cast<char*>(senderPublicKey.data()), senderPublicKey.size());
+    string encryptedMessage;
+    file>>encryptedMessage;
+    file.close();
+    if (senderPublicKey != publicKey){
+        cerr<<"Public key mismatch"<<endl;
+        return;
+    }
+    decrypt(encryptedMessage);
 }
 
 void inputManager(string type,string text) {
@@ -119,6 +148,10 @@ void inputManager(string type,string text) {
     else if (type =="Decrypt"){
         decrypt(input);
     }
+    else if (type =="Send"){
+        sendMessage(input);
+    }
+        
 }
 
 
@@ -135,7 +168,7 @@ int main(int argc, const char * argv[]) {
         <<"3. Exit\n";
         int choice;
         cin>>choice;
-        if(choice == 3){
+        if(choice == 5){
             break;
         }
         if(choice == 1){
@@ -143,6 +176,12 @@ int main(int argc, const char * argv[]) {
         }
         else if (choice == 2){
             inputManager("Decrypt","Decrypting");
+        }
+        else if (choice == 3){
+            inputManager("Send","Sending");
+        }
+        else if (choice == 4){
+            decryptMessage();
         }
         
     }
