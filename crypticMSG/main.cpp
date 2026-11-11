@@ -10,6 +10,7 @@
 #include <sodium.h>
 #include <fstream>
 #include <array>
+
 using namespace std;
 
 string key="";
@@ -121,7 +122,7 @@ void sendMessage(string text){
 }
 
 void decryptMessage(){
-    ifstream file("send.txt", ios::binary);
+    ifstream file("recieve.txt", ios::binary);
     if(!file.is_open()){
         cerr<<"Failed to open file"<<endl;
         return;
@@ -138,21 +139,7 @@ void decryptMessage(){
     decrypt(encryptedMessage);
 }
 
-void inputManager(string type,string text) {
-    string input;
-    cout<<text<<endl<<"enter the text:";
-    cin>>input;
-    if (type =="Encrypt"){
-        encrypt(input);
-    }
-    else if (type =="Decrypt"){
-        decrypt(input);
-    }
-    else if (type =="Send"){
-        sendMessage(input);
-    }
-        
-}
+
 
 
 int main(int argc, const char * argv[]) {
@@ -163,25 +150,49 @@ int main(int argc, const char * argv[]) {
     keyLoad();
     while(true){
         cout<<"Action:\n"
-        <<"1. Encrypt\n"
-        <<"2. Decrypt\n"
-        <<"3. Exit\n";
+        <<"1. Personal\n"
+        <<"2. Messege Decryption\n"
+        <<"3. Messege Encryption\n"
+        <<"5. Exit\n";
         int choice;
         cin>>choice;
         if(choice == 5){
             break;
         }
         if(choice == 1){
-            inputManager("Encrypt","Encrypting");
+            cout<<"Personal actions:\n"
+            <<"1. Encryption\n"
+            <<"2. Decrypt\n"
+            <<"3. Personal Encryption\n";
+            cin>>choice;
+            if(choice == 1){
+                cout<<"Enter text to encrypt: ";
+                string text;
+                cin>>text;
+                encrypt(text);
+            }else if(choice == 2){
+                cout<<"Enter text to decrypt: ";
+                string text;
+                cin>>text;
+                decrypt(text);
+            }
+            
+            continue;
         }
         else if (choice == 2){
-            inputManager("Decrypt","Decrypting");
+//            cout<<"Please copy the file recieve.txt and press any buton";
+//            getc(stdin); find a wy to pause macos
+            decryptMessage();
         }
         else if (choice == 3){
-            inputManager("Send","Sending");
+            cout<<"Enter text to send: ";
+            string text;
+            cin>>text;
+            // ask for public key of the receiver and convert it from string into you know what :(
+            sendMessage(text);
         }
         else if (choice == 4){
-            decryptMessage();
+
         }
         
     }
