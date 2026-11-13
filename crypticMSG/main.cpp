@@ -19,7 +19,6 @@ string key="";
 array<unsigned char, crypto_box_PUBLICKEYBYTES> publicKey;
 array<unsigned char, crypto_box_SECRETKEYBYTES> PrivateKey;
 
-
 void keyGen(){
     crypto_box_keypair(publicKey.data(), PrivateKey.data());
     ofstream publicfKey("public.fkey", ios::binary);
@@ -163,7 +162,8 @@ int main(int argc, const char * argv[]) {
             cout<<"Personal actions:\n"
             <<"1. Encryption\n"
             <<"2. Decrypt\n"
-            <<"3. Personal Encryption\n";
+            <<"3. Personal message encryption\n"
+            <<"4. Keys\n";
             cin>>choice;
             if(choice == 1){
                 cout<<"Enter text to encrypt: ";
@@ -175,8 +175,16 @@ int main(int argc, const char * argv[]) {
                 string text;
                 cin>>text;
                 decrypt(text);
+            }else if(choice==4){
+                //show keys in hex
+                vector<char> publicHex(publicKey.size() * 2 + 1);
+                sodium_bin2hex(publicHex.data(),publicHex.size(),publicKey.data(), publicKey.size());
+                cout<<"Public key value: "<<publicHex.data()<<endl;
+                vector<char> privateHex(PrivateKey.size() * 2 + 1);
+                sodium_bin2hex(privateHex.data(),privateHex.size(),PrivateKey.data(), PrivateKey.size());
+                cout<<"PRIVATE key value: "<<privateHex.data()<<endl;
             }
-            
+            // remember about the 3rd option
             continue;
         }
         else if (choice == 2){
